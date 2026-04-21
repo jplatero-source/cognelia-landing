@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cognelia — L'assistant IA pour artisans BTP</title>
+<meta name="description" content="Créez vos devis BTP en 2 minutes. Gérez clients, planning et factures depuis votre téléphone. Cognelia automatise votre administratif."/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --orange:#F97316;
+  --orange-dark:#EA6A0A;
+  --orange-light:#FEF3EB;
+  --dark:#1A1A2E;
+  --dark2:#16213E;
+  --gray:#64748B;
+  --gray-light:#F1F5F9;
+  --white:#FFFFFF;
+  --text:#1E293B;
+}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:var(--text);background:var(--white);overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-bottom:1px solid #E2E8F0;padding:0 5%;}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-icon{width:36px;height:36px;background:var(--orange);border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:16px;}
+.logo-text{font-size:20px;font-weight:700;color:var(--dark);}
+.nav-cta{background:var(--orange);color:white;border:none;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;transition:background 0.2s;}
+.nav-cta:hover{background:var(--orange-dark);}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:80px 5% 60px;background:linear-gradient(135deg,#0F0C29 0%,#302B63 50%,#24243e 100%);position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-100px;right:-100px;width:600px;height:600px;background:radial-gradient(circle,rgba(249,115,22,0.15) 0%,transparent 70%);pointer-events:none;}
+.hero::after{content:'';position:absolute;bottom:-100px;left:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(249,115,22,0.1) 0%,transparent 70%);pointer-events:none;}
+.hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.3);color:#FB923C;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;margin-bottom:24px;}
+.hero-badge span{width:6px;height:6px;background:#F97316;border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(1.3);}}
+.hero h1{font-size:clamp(32px,4vw,52px);font-weight:800;color:white;line-height:1.15;margin-bottom:20px;}
+.hero h1 em{color:#FB923C;font-style:normal;}
+.hero p{font-size:18px;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:36px;}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap;}
+.btn-primary{background:var(--orange);color:white;padding:14px 28px;border-radius:10px;font-size:16px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;border:none;cursor:pointer;}
+.btn-primary:hover{background:var(--orange-dark);transform:translateY(-1px);box-shadow:0 8px 24px rgba(249,115,22,0.4);}
+.btn-secondary{background:rgba(255,255,255,0.1);color:white;padding:14px 28px;border-radius:10px;font-size:16px;font-weight:600;text-decoration:none;border:1px solid rgba(255,255,255,0.2);transition:all 0.2s;}
+.btn-secondary:hover{background:rgba(255,255,255,0.15);}
+.hero-trust{display:flex;align-items:center;gap:20px;margin-top:32px;flex-wrap:wrap;}
+.trust-item{display:flex;align-items:center;gap:6px;color:rgba(255,255,255,0.55);font-size:13px;}
+.trust-icon{color:#F97316;font-size:16px;}
+
+/* HERO VISUAL */
+.hero-visual{position:relative;}
+.phone-mockup{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);border-radius:24px;padding:20px;backdrop-filter:blur(10px);}
+.phone-header{display:flex;align-items:center;gap:10px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:16px;}
+.phone-avatar{width:40px;height:40px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:16px;}
+.phone-name{color:white;font-weight:600;font-size:15px;}
+.phone-status{color:#4ADE80;font-size:12px;}
+.chat-bubble{margin-bottom:12px;display:flex;flex-direction:column;}
+.bubble{padding:12px 16px;border-radius:16px;font-size:14px;line-height:1.5;max-width:85%;}
+.bubble-user{background:var(--orange);color:white;align-self:flex-end;border-bottom-right-radius:4px;}
+.bubble-ai{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.9);align-self:flex-start;border-bottom-left-radius:4px;}
+.bubble-time{font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;align-self:flex-end;}
+.bubble-time.left{align-self:flex-start;}
+.typing{display:flex;gap:4px;align-items:center;padding:12px 16px;background:rgba(255,255,255,0.08);border-radius:16px;border-bottom-left-radius:4px;width:60px;}
+.typing span{width:7px;height:7px;background:rgba(255,255,255,0.4);border-radius:50%;animation:typing 1.2s infinite;}
+.typing span:nth-child(2){animation-delay:0.2s;}
+.typing span:nth-child(3){animation-delay:0.4s;}
+@keyframes typing{0%,80%,100%{transform:scale(0.7);opacity:0.5;}40%{transform:scale(1);opacity:1;}}
+
+/* LOGOS / SOCIAL PROOF */
+.logos-band{background:var(--gray-light);padding:28px 5%;border-top:1px solid #E2E8F0;border-bottom:1px solid #E2E8F0;}
+.logos-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap;}
+.logos-label{font-size:13px;color:var(--gray);font-weight:500;text-align:center;}
+.tool-badge{display:flex;align-items:center;gap:8px;background:white;border:1px solid #E2E8F0;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;color:var(--gray);}
+.tool-dot{width:8px;height:8px;border-radius:50%;}
+
+/* SECTION BASE */
+section{padding:80px 5%;}
+.section-inner{max-width:1100px;margin:0 auto;}
+.section-tag{display:inline-block;background:var(--orange-light);color:var(--orange);font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:16px;}
+.section-title{font-size:clamp(24px,3vw,40px);font-weight:800;color:var(--dark);line-height:1.2;margin-bottom:16px;}
+.section-sub{font-size:18px;color:var(--gray);max-width:580px;line-height:1.7;}
+.center{text-align:center;}
+.center .section-sub{margin:0 auto;}
+
+/* PROBLÈME */
+.problems{background:white;}
+.problems-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:48px;}
+.problem-card{background:var(--gray-light);border-radius:16px;padding:28px;border:1px solid #E2E8F0;position:relative;overflow:hidden;}
+.problem-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#EF4444,#F97316);}
+.problem-icon{font-size:32px;margin-bottom:16px;}
+.problem-card h3{font-size:17px;font-weight:700;color:var(--dark);margin-bottom:8px;}
+.problem-card p{font-size:14px;color:var(--gray);line-height:1.6;}
+
+/* COMMENT ÇA MARCHE / TUNNEL */
+.tunnel{background:linear-gradient(180deg,var(--gray-light) 0%,white 100%);}
+.steps{margin-top:60px;position:relative;}
+.steps::before{content:'';position:absolute;left:35px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--orange),transparent);opacity:0.3;}
+.step{display:flex;gap:28px;margin-bottom:48px;position:relative;}
+.step-num{width:70px;height:70px;min-width:70px;background:white;border:2px solid var(--orange);border-radius:16px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px;box-shadow:0 4px 16px rgba(249,115,22,0.15);}
+.step-num span:first-child{font-size:10px;font-weight:600;color:var(--orange);text-transform:uppercase;letter-spacing:0.5px;}
+.step-num span:last-child{font-size:22px;}
+.step-content{padding-top:12px;}
+.step-content h3{font-size:20px;font-weight:700;color:var(--dark);margin-bottom:8px;}
+.step-content p{font-size:15px;color:var(--gray);line-height:1.7;}
+.step-tag{display:inline-block;background:var(--orange-light);color:var(--orange);font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;margin-top:10px;}
+
+/* FONCTIONNALITÉS */
+.features{background:var(--dark);}
+.features .section-title{color:white;}
+.features .section-sub{color:rgba(255,255,255,0.6);}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:48px;}
+.feature-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;transition:all 0.3s;}
+.feature-card:hover{background:rgba(255,255,255,0.08);border-color:rgba(249,115,22,0.3);transform:translateY(-2px);}
+.feature-icon{width:48px;height:48px;background:rgba(249,115,22,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:20px;}
+.feature-card h3{font-size:17px;font-weight:700;color:white;margin-bottom:8px;}
+.feature-card p{font-size:14px;color:rgba(255,255,255,0.55);line-height:1.6;}
+
+/* TARIFS */
+.pricing{background:var(--gray-light);}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:48px;max-width:900px;margin-left:auto;margin-right:auto;}
+.plan-card{background:white;border-radius:20px;padding:32px;border:2px solid #E2E8F0;position:relative;transition:all 0.3s;}
+.plan-card.featured{border-color:var(--orange);box-shadow:0 8px 40px rgba(249,115,22,0.15);}
+.plan-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--orange);color:white;font-size:12px;font-weight:700;padding:4px 16px;border-radius:20px;white-space:nowrap;}
+.plan-name{font-size:14px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;}
+.plan-price{font-size:42px;font-weight:800;color:var(--dark);margin-bottom:4px;}
+.plan-price sup{font-size:20px;font-weight:600;}
+.plan-period{font-size:14px;color:var(--gray);margin-bottom:8px;}
+.plan-setup{font-size:13px;color:var(--orange);font-weight:600;margin-bottom:24px;}
+.plan-features{list-style:none;margin-bottom:28px;}
+.plan-features li{font-size:14px;color:var(--text);padding:8px 0;border-bottom:1px solid var(--gray-light);display:flex;align-items:center;gap:10px;}
+.plan-features li:last-child{border-bottom:none;}
+.check{color:#22C55E;font-size:16px;font-weight:700;}
+.plan-cta{width:100%;background:var(--orange);color:white;border:none;padding:14px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;}
+.plan-card:not(.featured) .plan-cta{background:var(--gray-light);color:var(--dark);}
+.plan-cta:hover{opacity:0.9;transform:translateY(-1px);}
+
+/* TÉMOIGNAGES */
+.testimonials{background:white;}
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:48px;}
+.testi-card{background:var(--gray-light);border-radius:16px;padding:28px;border:1px solid #E2E8F0;}
+.testi-stars{color:#F59E0B;font-size:18px;margin-bottom:16px;}
+.testi-text{font-size:15px;color:var(--text);line-height:1.7;margin-bottom:20px;font-style:italic;}
+.testi-author{display:flex;align-items:center;gap:12px;}
+.testi-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#F59E0B);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:16px;}
+.testi-name{font-weight:700;color:var(--dark);font-size:14px;}
+.testi-role{font-size:12px;color:var(--gray);}
+
+/* CTA FINAL */
+.cta-final{background:linear-gradient(135deg,var(--orange) 0%,#F59E0B 100%);padding:80px 5%;}
+.cta-final h2{font-size:clamp(28px,3.5vw,44px);font-weight:800;color:white;margin-bottom:16px;}
+.cta-final p{font-size:18px;color:rgba(255,255,255,0.85);margin-bottom:36px;max-width:560px;}
+.cta-final .btn-white{background:white;color:var(--orange);padding:16px 32px;border-radius:10px;font-size:16px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;}
+.cta-final .btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,0.2);}
+.cta-final .btn-outline-white{background:transparent;color:white;padding:16px 32px;border-radius:10px;font-size:16px;font-weight:600;text-decoration:none;border:2px solid rgba(255,255,255,0.5);display:inline-flex;align-items:center;gap:8px;transition:all 0.2s;}
+.cta-final .btn-outline-white:hover{border-color:white;background:rgba(255,255,255,0.1);}
+.cta-btns{display:flex;gap:16px;flex-wrap:wrap;}
+
+/* FOOTER */
+footer{background:var(--dark);padding:40px 5%;}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+.footer-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.footer-logo-icon{width:32px;height:32px;background:var(--orange);border-radius:7px;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:14px;}
+.footer-logo-text{color:white;font-weight:700;font-size:16px;}
+.footer-links{display:flex;gap:24px;flex-wrap:wrap;}
+.footer-links a{color:rgba(255,255,255,0.5);font-size:13px;text-decoration:none;transition:color 0.2s;}
+.footer-links a:hover{color:white;}
+.footer-copy{color:rgba(255,255,255,0.3);font-size:12px;width:100%;text-align:center;margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .hero-inner{grid-template-columns:1fr;gap:40px;}
+  .hero-visual{order:-1;}
+  .step{flex-direction:column;gap:12px;}
+  .steps::before{display:none;}
+  .step-num{width:56px;height:56px;min-width:56px;}
+  .cta-btns{flex-direction:column;}
+  .footer-inner{flex-direction:column;text-align:center;}
+}
+
+/* SCROLL ANIMATION */
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.fade-in.visible{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-icon">C</div>
+      <span class="logo-text">Cognelia</span>
+    </a>
+    <a href="#essai" class="nav-cta">Essai gratuit →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge"><span></span>IA spécialisée BTP</div>
+      <h1>Créez vos devis BTP<br/>en <em>2 minutes</em>,<br/>pas en 2 heures.</h1>
+      <p>Cognelia automatise vos devis, relances, planning et factures. Vous vous concentrez sur le chantier, l'IA gère le reste.</p>
+      <div class="hero-btns">
+        <a href="https://cognelia-devis.vercel.app" target="_blank" class="btn-primary">Essayer gratuitement →</a>
+        <a href="#comment" class="btn-secondary">Voir comment ça marche</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-item"><span class="trust-icon">✓</span>Sans abonnement pour commencer</div>
+        <div class="trust-item"><span class="trust-icon">✓</span>Prêt en 5 minutes</div>
+        <div class="trust-item"><span class="trust-icon">✓</span>Données 100% privées</div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="phone-mockup">
+        <div class="phone-header">
+          <div class="phone-avatar">C</div>
+          <div>
+            <div class="phone-name">Copilote Cognelia</div>
+            <div class="phone-status">● En ligne</div>
+          </div>
+        </div>
+        <div class="chat-bubble">
+          <div class="bubble bubble-user">Devis pose carrelage salle de bain 15m², client Dupont, tout compris</div>
+          <div class="bubble-time">14:32</div>
+        </div>
+        <div class="chat-bubble">
+          <div class="bubble bubble-ai">✅ Devis créé pour M. Dupont<br/><br/>📋 Dépose et préparation support : 420€<br/>🪵 Fourniture carrelage 15m² : 315€<br/>🔧 Pose + joints : 525€<br/>📦 Colle et matériaux : 95€<br/><br/><strong>Total TTC (TVA 10%) : 1 487€</strong><br/><br/>PDF prêt à envoyer !</div>
+          <div class="bubble-time left">14:32</div>
+        </div>
+        <div class="chat-bubble">
+          <div class="typing"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUTILS -->
+<div class="logos-band">
+  <div class="logos-inner">
+    <span class="logos-label">S'intègre avec vos outils :</span>
+    <div class="tool-badge"><div class="tool-dot" style="background:#00D4AA;"></div>Airtable</div>
+    <div class="tool-badge"><div class="tool-dot" style="background:#EA4335;"></div>Gmail</div>
+    <div class="tool-badge"><div class="tool-dot" style="background:#4285F4;"></div>Google Agenda</div>
+    <div class="tool-badge"><div class="tool-dot" style="background:#000;"></div>Notion</div>
+    <div class="tool-badge"><div class="tool-dot" style="background:#25D366;"></div>WhatsApp</div>
+  </div>
+</div>
+
+<!-- PROBLÈME -->
+<section class="problems">
+  <div class="section-inner">
+    <div class="center fade-in">
+      <div class="section-tag">Le problème</div>
+      <h2 class="section-title">L'artisan perd 1 journée par semaine en papiers</h2>
+      <p class="section-sub">Chaque semaine, des heures gâchées sur des tâches qui n'ont rien à voir avec votre métier.</p>
+    </div>
+    <div class="problems-grid">
+      <div class="problem-card fade-in">
+        <div class="problem-icon">📝</div>
+        <h3>Devis chronophages</h3>
+        <p>45 minutes par devis en moyenne. Copier-coller, calculs TVA, mise en page… et tout recommencer à chaque client.</p>
+      </div>
+      <div class="problem-card fade-in">
+        <div class="problem-icon">📞</div>
+        <h3>Relances oubliées</h3>
+        <p>Des factures impayées qui traînent parce que vous n'avez pas le temps de relancer. De l'argent qui dort.</p>
+      </div>
+      <div class="problem-card fade-in">
+        <div class="problem-icon">📅</div>
+        <h3>Planning décousu</h3>
+        <p>Chantiers mal planifiés, oublis, chevauchements. Difficile de tout suivre quand on est sur le terrain toute la journée.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TUNNEL / COMMENT ÇA MARCHE -->
+<section class="tunnel" id="comment">
+  <div class="section-inner">
+    <div class="fade-in">
+      <div class="section-tag">Comment ça marche</div>
+      <h2 class="section-title">Du premier contact au paiement,<br/>Cognelia s'occupe de tout</h2>
+      <p class="section-sub">Un tunnel entièrement automatisé, de la demande client jusqu'à la facturation.</p>
+    </div>
+    <div class="steps">
+      <div class="step fade-in">
+        <div class="step-num"><span>Étape</span><span>01</span></div>
+        <div class="step-content">
+          <h3>Le client vous contacte</h3>
+          <p>Via votre site, un formulaire ou directement sur WhatsApp. Le client décrit ses travaux en quelques mots — photo, vocal, texte, peu importe.</p>
+          <span class="step-tag">Site web · WhatsApp · Formulaire</span>
+        </div>
+      </div>
+      <div class="step fade-in">
+        <div class="step-num"><span>Étape</span><span>02</span></div>
+        <div class="step-content">
+          <h3>Cognelia génère le devis en 2 minutes</h3>
+          <p>L'IA comprend la demande, calcule les prix avec la bonne TVA BTP (10%, 20%, 5.5%), génère un PDF professionnel avec votre logo et vos coordonnées.</p>
+          <span class="step-tag">Copilote Devis BTP · PDF automatique</span>
+        </div>
+      </div>
+      <div class="step fade-in">
+        <div class="step-num"><span>Étape</span><span>03</span></div>
+        <div class="step-content">
+          <h3>Le devis est envoyé automatiquement</h3>
+          <p>Le client reçoit le devis par email ou WhatsApp. Vous recevez une notification. Si pas de réponse sous 5 jours, une relance est envoyée automatiquement.</p>
+          <span class="step-tag">Gmail · WhatsApp · Relance auto</span>
+        </div>
+      </div>
+      <div class="step fade-in">
+        <div class="step-num"><span>Étape</span><span>04</span></div>
+        <div class="step-content">
+          <h3>Le chantier est planifié</h3>
+          <p>Dès acceptation du devis, le chantier est ajouté à votre planning. Votre agenda Google est mis à jour, vous recevez un rappel la veille.</p>
+          <span class="step-tag">Google Agenda · Rappels automatiques</span>
+        </div>
+      </div>
+      <div class="step fade-in">
+        <div class="step-num"><span>Étape</span><span>05</span></div>
+        <div class="step-content">
+          <h3>La facture part, le paiement arrive</h3>
+          <p>Une fois le chantier terminé, la facture est générée depuis le devis accepté. Si impayée, des relances progressives et professionnelles sont envoyées automatiquement.</p>
+          <span class="step-tag">Facturation · Relances · Airtable CRM</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FONCTIONNALITÉS -->
+<section class="features">
+  <div class="section-inner">
+    <div class="center fade-in">
+      <div class="section-tag" style="background:rgba(249,115,22,0.2);color:#FB923C;">Ce que Cognelia fait pour vous</div>
+      <h2 class="section-title" style="color:white;">Tout ce dont un artisan BTP a besoin</h2>
+      <p class="section-sub" style="color:rgba(255,255,255,0.6);">Un assistant IA qui connaît votre métier et automatise votre quotidien.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card fade-in">
+        <div class="feature-icon">📋</div>
+        <h3>Devis BTP en 2 minutes</h3>
+        <p>Décrivez les travaux en langage naturel. Le Copilote génère un devis professionnel avec TVA BTP correcte et export PDF.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🧾</div>
+        <h3>Facturation automatique</h3>
+        <p>Transformez un devis accepté en facture en un clic. Suivi des paiements et relances automatiques pour les impayés.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">📅</div>
+        <h3>Planning chantiers</h3>
+        <p>Synchronisation avec Google Agenda. Planifiez, modifiez, gérez vos chantiers depuis votre téléphone sans effort.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">👥</div>
+        <h3>CRM clients intégré</h3>
+        <p>Historique complet de chaque client (devis, chantiers, factures, notes). Retrouvez tout en quelques secondes.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">📲</div>
+        <h3>WhatsApp natif</h3>
+        <p>Gérez tout depuis WhatsApp : demandez un devis, planifiez un chantier, relancez un client — par message vocal ou texte.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🔒</div>
+        <h3>Données privées & sécurisées</h3>
+        <p>Vos données restent vôtres. Clé API personnelle, aucun stockage chez Cognelia. Conforme RGPD.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TARIFS -->
+<section class="pricing" id="essai">
+  <div class="section-inner">
+    <div class="center fade-in">
+      <div class="section-tag">Tarifs simples</div>
+      <h2 class="section-title">Un prix honnête, un vrai retour sur investissement</h2>
+      <p class="section-sub">Chaque devis gagné en 2 minutes au lieu de 45 — c'est 40 minutes récupérées. Chaque jour.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="plan-card fade-in">
+        <div class="plan-name">Démarrage</div>
+        <div class="plan-price"><sup>€</sup>0</div>
+        <div class="plan-period">pour commencer</div>
+        <div class="plan-setup">Accès immédiat, sans CB</div>
+        <ul class="plan-features">
+          <li><span class="check">✓</span>Copilote Devis BTP</li>
+          <li><span class="check">✓</span>Export PDF illimité</li>
+          <li><span class="check">✓</span>TVA BTP automatique</li>
+          <li><span class="check">✓</span>Clé API personnelle</li>
+          <li style="color:#CBD5E1;">✗ Automatisations</li>
+          <li style="color:#CBD5E1;">✗ CRM & planning</li>
+        </ul>
+        <button class="plan-cta" onclick="window.open('https://cognelia-devis.vercel.app','_blank')">Essayer gratuitement</button>
+      </div>
+      <div class="plan-card featured fade-in">
+        <div class="plan-badge">⭐ Le plus populaire</div>
+        <div class="plan-name">Copilote Pro</div>
+        <div class="plan-price"><sup>€</sup>149</div>
+        <div class="plan-period">/mois, sans engagement</div>
+        <div class="plan-setup">+ 490€ de setup unique</div>
+        <ul class="plan-features">
+          <li><span class="check">✓</span>Tout le plan Démarrage</li>
+          <li><span class="check">✓</span>Copilote IA complet (WhatsApp)</li>
+          <li><span class="check">✓</span>Facturation automatique</li>
+          <li><span class="check">✓</span>Planning chantiers</li>
+          <li><span class="check">✓</span>CRM clients (Airtable)</li>
+          <li><span class="check">✓</span>Relances auto Gmail</li>
+        </ul>
+        <button class="plan-cta" onclick="document.getElementById('contact-form').scrollIntoView({behavior:'smooth'})">Démarrer avec Cognelia</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TÉMOIGNAGES (fictifs pour maquette) -->
+<section class="testimonials">
+  <div class="section-inner">
+    <div class="center fade-in">
+      <div class="section-tag">Retours artisans</div>
+      <h2 class="section-title">Ce qu'ils en disent</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card fade-in">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Je faisais mes devis à la main, ça me prenait une heure. Maintenant je décris le chantier sur WhatsApp et le PDF est prêt en 2 minutes. Mes clients sont surpris par la rapidité."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">ML</div>
+          <div>
+            <div class="testi-name">Marc L.</div>
+            <div class="testi-role">Plombier chauffagiste — Lyon</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card fade-in">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Les relances automatiques m'ont récupéré 3 500€ d'impayés en un mois. Je n'avais même plus le courage de rappeler les clients — maintenant c'est géré tout seul."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">SK</div>
+          <div>
+            <div class="testi-name">Samir K.</div>
+            <div class="testi-role">Carreleur — Marseille</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card fade-in">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Le plus gros gain c'est le planning. Plus de double réservation, plus d'oubli. Mon agenda Google se remplit automatiquement dès qu'un devis est accepté."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">TM</div>
+          <div>
+            <div class="testi-name">Thomas M.</div>
+            <div class="testi-role">Peintre — Bordeaux</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMULAIRE CONTACT -->
+<section style="background:var(--gray-light);padding:60px 5%;" id="contact-form">
+  <div class="section-inner" style="max-width:640px;">
+    <div class="center fade-in">
+      <div class="section-tag">Contact</div>
+      <h2 class="section-title">On vous rappelle sous 24h</h2>
+      <p class="section-sub" style="margin:0 auto 36px;">Dites-nous votre métier et vos besoins. On configure Cognelia pour vous.</p>
+    </div>
+    <form id="contact" style="background:white;padding:32px;border-radius:20px;border:1px solid #E2E8F0;" onsubmit="handleSubmit(event)">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+        <div>
+          <label style="display:block;font-size:13px;font-weight:600;color:var(--dark);margin-bottom:6px;">Prénom *</label>
+          <input type="text" required placeholder="Jean" style="width:100%;padding:12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:14px;outline:none;transition:border 0.2s;" onfocus="this.style.borderColor='#F97316'" onblur="this.style.borderColor='#E2E8F0'"/>
+        </div>
+        <div>
+          <label style="display:block;font-size:13px;font-weight:600;color:var(--dark);margin-bottom:6px;">Métier *</label>
+          <input type="text" required placeholder="Plombier, maçon, électricien…" style="width:100%;padding:12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:14px;outline:none;transition:border 0.2s;" onfocus="this.style.borderColor='#F97316'" onblur="this.style.borderColor='#E2E8F0'"/>
+        </div>
+      </div>
+      <div style="margin-bottom:16px;">
+        <label style="display:block;font-size:13px;font-weight:600;color:var(--dark);margin-bottom:6px;">Email ou téléphone *</label>
+        <input type="text" required placeholder="jean@email.com ou 06 12 34 56 78" style="width:100%;padding:12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:14px;outline:none;transition:border 0.2s;" onfocus="this.style.borderColor='#F97316'" onblur="this.style.borderColor='#E2E8F0'"/>
+      </div>
+      <div style="margin-bottom:24px;">
+        <label style="display:block;font-size:13px;font-weight:600;color:var(--dark);margin-bottom:6px;">Votre principal problème actuellement ?</label>
+        <textarea rows="3" placeholder="Trop de temps sur les devis, des impayés, planning difficile à gérer…" style="width:100%;padding:12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:14px;outline:none;resize:none;transition:border 0.2s;font-family:inherit;" onfocus="this.style.borderColor='#F97316'" onblur="this.style.borderColor='#E2E8F0'"></textarea>
+      </div>
+      <button type="submit" style="width:100%;background:var(--orange);color:white;border:none;padding:15px;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='#EA6A0A'" onmouseout="this.style.background='#F97316'">
+        Être contacté gratuitement →
+      </button>
+      <p style="text-align:center;font-size:12px;color:var(--gray);margin-top:12px;">Sans engagement · Réponse sous 24h</p>
+    </form>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<div class="cta-final">
+  <div class="section-inner center">
+    <h2 class="fade-in">Prêt à récupérer 1 journée<br/>par semaine ?</h2>
+    <p class="fade-in">Essayez le Copilote Devis BTP gratuitement dès maintenant. Aucune carte bancaire requise.</p>
+    <div class="cta-btns" style="justify-content:center;">
+      <a href="https://cognelia-devis.vercel.app" target="_blank" class="btn-white fade-in">Essayer gratuitement →</a>
+      <a href="#contact-form" class="btn-outline-white fade-in">Parler à un expert</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a href="#" class="footer-logo">
+      <div class="footer-logo-icon">C</div>
+      <span class="footer-logo-text">Cognelia</span>
+    </a>
+    <div class="footer-links">
+      <a href="#comment">Comment ça marche</a>
+      <a href="#essai">Tarifs</a>
+      <a href="#contact-form">Contact</a>
+      <a href="https://cognelia-devis.vercel.app" target="_blank">Copilote Devis</a>
+    </div>
+  </div>
+  <div class="footer-copy">© 2026 Cognelia — Automatisation IA pour artisans BTP · Mentions légales · CGV</div>
+</footer>
+
+<script>
+// Scroll animation
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Form
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type=submit]');
+  btn.textContent = '✓ Message envoyé — On vous répond sous 24h !';
+  btn.style.background = '#22C55E';
+  btn.disabled = true;
+}
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); }
+  });
+});
+</script>
+</body>
+</html>
