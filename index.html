@@ -1,1452 +1,327 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cognelia — Sites web pour artisans bretons · Bretagne</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cognelia – Votre alliée numérique pour artisans</title>
+<meta name="description" content="Site vitrine, aide administrative et visibilité locale pour artisans et indépendants. Plus de visibilité, moins d'administratif, plus de temps pour votre métier.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 6C18 8 8 20 10 34c14 0 22-10 22-28z' fill='%23ee7a3c'/%3E%3Cpath d='M34 30c0 16 8 26 22 26 2-14-8-26-22-26z' fill='%23f4a06b'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #0c0c0c;
-  --s1: #141414;
-  --s2: #1c1c1c;
-  --b1: #2a2a2a;
-  --b2: #3a3a3a;
-  --lime: #d4ff00;
-  --lime2: #eaff66;
-  --lime-dark: #6a8000;
-  --white: #f5f2ec;
-  --muted: #666;
-  --text: #aaa;
-  --red: #ff3b30;
-}
-
-* { margin:0; padding:0; box-sizing:border-box; }
-
-html { scroll-behavior: smooth; }
-
-body {
-  background: var(--bg);
-  color: var(--white);
-  font-family: 'Barlow', sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
-  overflow-x: hidden;
-}
-
-/* ── NAV ── */
-nav {
-  position: fixed; top:0; left:0; right:0; z-index: 100;
-  padding: 20px 40px;
-  display: flex; align-items: center; justify-content: space-between;
-  background: rgba(12,12,12,0.92);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.3s;
-}
-
-nav.scrolled { border-bottom-color: var(--b1); }
-
-.nav-logo {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 22px;
-  letter-spacing: 0.08em;
-  color: var(--white);
-  text-decoration: none;
-}
-
-.nav-logo span { color: var(--lime); }
-
-.nav-links {
-  display: flex; align-items: center; gap: 32px;
-  list-style: none;
-}
-
-.nav-links a {
-  font-size: 13px; font-weight: 500;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  color: var(--text);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.nav-links a:hover { color: var(--white); }
-
-.btn-nav {
-  background: var(--lime);
-  color: #0c0c0c !important;
-  padding: 9px 22px;
-  font-weight: 600 !important;
-  font-size: 12px !important;
-  letter-spacing: 0.1em;
-  transition: background 0.2s, transform 0.1s !important;
-}
-
-.btn-nav:hover { background: var(--lime2) !important; transform: translateY(-1px); }
-
-@media (max-width: 768px) {
-  nav { padding: 16px 20px; }
-  .nav-links { display: none; }
-}
-
-/* ── HERO ── */
-.hero {
-  min-height: 100vh;
-  display: flex; flex-direction: column; justify-content: flex-end;
-  padding: 160px 40px 80px;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-bg {
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse 60% 50% at 100% 0%, rgba(212,255,0,0.07), transparent 60%),
-    radial-gradient(ellipse 40% 40% at 0% 100%, rgba(212,255,0,0.04), transparent 60%);
-  pointer-events: none;
-}
-
-/* Grid lines */
-.hero::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(212,255,0,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(212,255,0,0.04) 1px, transparent 1px);
-  background-size: 80px 80px;
-  pointer-events: none;
-}
-
-.hero-eyebrow {
-  display: flex; align-items: center; gap: 12px;
-  margin-bottom: 28px;
-  opacity: 0;
-  animation: fadeUp 0.7s ease 0.1s forwards;
-}
-
-.hero-eyebrow-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--lime);
-  animation: blink 2s ease infinite;
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.2; }
-}
-
-.hero-eyebrow-text {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 12px; font-weight: 600;
-  letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--lime);
-}
-
-.hero h1 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(52px, 10vw, 110px);
-  line-height: 0.92;
-  letter-spacing: 0.01em;
-  color: var(--white);
-  margin-bottom: 0;
-  max-width: 900px;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 0.2s forwards;
-}
-
-.hero h1 .lime { color: var(--lime); }
-.hero h1 .outline {
-  -webkit-text-stroke: 2px rgba(245,242,236,0.25);
-  color: transparent;
-}
-
-.hero-sub {
-  font-size: 19px; font-weight: 300;
-  color: var(--text);
-  max-width: 560px;
-  margin: 28px 0 40px;
-  line-height: 1.6;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 0.35s forwards;
-}
-
-.hero-sub strong { color: var(--white); font-weight: 500; }
-
-.hero-ctas {
-  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 0.45s forwards;
-}
-
-.btn-primary {
-  background: var(--lime);
-  color: #0c0c0c;
-  padding: 16px 36px;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 15px; font-weight: 700;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  text-decoration: none;
-  display: inline-flex; align-items: center; gap: 10px;
-  transition: background 0.2s, transform 0.15s;
-  border: none; cursor: pointer;
-}
-
-.btn-primary:hover { background: var(--lime2); transform: translateY(-2px); }
-
-.btn-ghost {
-  border: 1px solid var(--b2);
-  color: var(--text);
-  padding: 16px 28px;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 15px; font-weight: 600;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  text-decoration: none;
-  transition: border-color 0.2s, color 0.2s;
-}
-
-.btn-ghost:hover { border-color: var(--white); color: var(--white); }
-
-/* COUNTER */
-.hero-counter {
-  position: absolute; right: 40px; bottom: 80px;
-  text-align: right;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 0.6s forwards;
-}
-
-@media (max-width: 768px) {
-  .hero { padding: 140px 20px 60px; }
-  .hero-counter { position: static; text-align: left; margin-top: 48px; }
-}
-
-.counter-label {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 11px; font-weight: 600;
-  letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 4px;
-}
-
-.counter-num {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 72px; line-height: 1;
-  color: var(--red);
-  letter-spacing: 0.02em;
-}
-
-.counter-sub {
-  font-size: 12px; color: var(--muted);
-  margin-top: 4px;
-  max-width: 160px;
-  text-align: right;
-  line-height: 1.4;
-}
-
-@media (max-width: 768px) {
-  .counter-sub { text-align: left; }
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ── STATS BAR ── */
-.stats-bar {
-  border-top: 1px solid var(--b1);
-  border-bottom: 1px solid var(--b1);
-  background: var(--s1);
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0;
-}
-
-@media (max-width: 640px) {
-  .stats-bar { grid-template-columns: repeat(2, 1fr); }
-}
-
-.stat {
-  padding: 28px 32px;
-  border-right: 1px solid var(--b1);
-  text-align: center;
-}
-
-.stat:last-child { border-right: none; }
-
-.stat-n {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 44px; line-height: 1;
-  letter-spacing: 0.02em;
-  color: var(--lime);
-  margin-bottom: 6px;
-}
-
-.stat-l {
-  font-size: 12px; font-weight: 500;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  color: var(--muted);
-  line-height: 1.4;
-}
-
-/* ── SECTION COMMONS ── */
-section { padding: 96px 40px; }
-
-@media (max-width: 768px) { section { padding: 64px 20px; } }
-
-.section-max { max-width: 1100px; margin: 0 auto; }
-
-.section-tag {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 11px; font-weight: 700;
-  letter-spacing: 0.25em; text-transform: uppercase;
-  color: var(--lime);
-  margin-bottom: 16px;
-  display: flex; align-items: center; gap: 10px;
-}
-
-.section-tag::before {
-  content: '';
-  width: 20px; height: 2px;
-  background: var(--lime);
-}
-
-h2 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(40px, 6vw, 72px);
-  line-height: 0.95;
-  letter-spacing: 0.02em;
-  color: var(--white);
-  margin-bottom: 24px;
-}
-
-h2 .lime { color: var(--lime); }
-h2 .red { color: var(--red); }
-
-/* ── PROBLEM ── */
-.problem { background: var(--bg); }
-
-.problem-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2px;
-  background: var(--b1);
-  border: 1px solid var(--b1);
-  margin-top: 48px;
-}
-
-@media (max-width: 640px) { .problem-grid { grid-template-columns: 1fr; } }
-
-.prob-cell {
-  background: var(--s1);
-  padding: 36px 32px;
-}
-
-.prob-cell.dark { background: #0a0a0a; }
-
-.prob-icon {
-  font-size: 32px; margin-bottom: 16px;
-}
-
-.prob-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 26px; letter-spacing: 0.04em;
-  color: var(--white);
-  margin-bottom: 10px; line-height: 1.1;
-}
-
-.prob-cell.red .prob-title { color: var(--red); }
-.prob-cell.lime .prob-title { color: var(--lime); }
-
-.prob-body {
-  font-size: 14.5px; color: var(--text);
-  line-height: 1.7;
-}
-
-/* Google search mockup */
-.google-mock {
-  background: #fff;
-  border-radius: 8px;
-  padding: 20px;
-  margin-top: 40px;
-  color: #202124;
-}
-
-.g-bar {
-  background: #f1f3f4;
-  border-radius: 24px;
-  padding: 10px 20px;
-  font-size: 14px;
-  color: #202124;
-  margin-bottom: 20px;
-  display: flex; align-items: center; gap: 10px;
-}
-
-.g-result {
-  padding: 12px 0;
-  border-bottom: 1px solid #e8e8e8;
-}
-
-.g-result:last-child { border: none; }
-
-.g-url { font-size: 12px; color: #006621; margin-bottom: 3px; }
-.g-title { font-size: 18px; color: #1a0dab; margin-bottom: 5px; cursor: pointer; }
-.g-title:hover { text-decoration: underline; }
-.g-desc { font-size: 13px; color: #545454; line-height: 1.4; }
-
-.g-result.you {
-  background: #fff3f3;
-  padding: 12px;
-  border-left: 3px solid var(--red);
-  border-radius: 4px;
-  margin-top: 8px;
-}
-
-.g-you-label {
-  font-size: 11px; font-weight: 700;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--red);
-  margin-bottom: 4px;
-}
-
-.g-invisible {
-  font-size: 14px; color: #999;
-  font-style: italic;
-}
-
-/* ── SOLUTION ── */
-.solution { background: var(--s1); }
-
-.sol-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--b1);
-  border: 1px solid var(--b1);
-  margin-top: 48px;
-}
-
-@media (max-width: 640px) { .sol-grid { grid-template-columns: 1fr; } }
-
-.sol-card {
-  background: var(--s1);
-  padding: 36px 28px;
-  transition: background 0.2s;
-}
-
-.sol-card:hover { background: var(--s2); }
-
-.sol-num {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 56px; line-height: 1;
-  color: rgba(212,255,0,0.15);
-  margin-bottom: 16px;
-  letter-spacing: 0.02em;
-}
-
-.sol-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 24px; letter-spacing: 0.04em;
-  color: var(--lime);
-  margin-bottom: 10px;
-}
-
-.sol-body { font-size: 14px; color: var(--text); line-height: 1.7; }
-
-/* ── PROCESS ── */
-.process { background: var(--bg); }
-
-.process-steps {
-  display: flex;
-  flex-direction: column;
-  margin-top: 48px;
-  border: 1px solid var(--b1);
-}
-
-.p-step {
-  display: grid;
-  grid-template-columns: 80px 1fr;
-  border-bottom: 1px solid var(--b1);
-}
-
-.p-step:last-child { border-bottom: none; }
-
-.p-num-box {
-  background: var(--s1);
-  border-right: 1px solid var(--b1);
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 36px; letter-spacing: 0.05em;
-  color: var(--lime);
-  flex-shrink: 0;
-  padding: 28px 0;
-}
-
-.p-body { padding: 28px 32px; }
-
-.p-title {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 18px; font-weight: 700;
-  letter-spacing: 0.04em; text-transform: uppercase;
-  color: var(--white);
-  margin-bottom: 6px;
-}
-
-.p-desc { font-size: 14px; color: var(--text); line-height: 1.65; }
-
-.p-badge {
-  display: inline-block;
-  background: rgba(212,255,0,0.1);
-  border: 1px solid rgba(212,255,0,0.3);
-  color: var(--lime);
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 11px; font-weight: 700;
-  letter-spacing: 0.12em; text-transform: uppercase;
-  padding: 3px 10px;
-  margin-top: 10px;
-  display: inline-block;
-}
-
-/* ── BEFORE AFTER ── */
-.beforeafter { background: var(--s1); }
-
-.ba-grid {
-  display: grid;
-  grid-template-columns: 1fr 60px 1fr;
-  gap: 0;
-  align-items: stretch;
-  margin-top: 48px;
-  border: 1px solid var(--b1);
-}
-
-@media (max-width: 640px) {
-  .ba-grid { grid-template-columns: 1fr; }
-  .ba-sep { display: none; }
-}
-
-.ba-side {
-  padding: 36px 28px;
-}
-
-.ba-label {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 12px; font-weight: 700;
-  letter-spacing: 0.2em; text-transform: uppercase;
-  margin-bottom: 20px;
-  padding: 6px 14px; display: inline-block;
-}
-
-.ba-label.before { background: #2a0a0a; color: var(--red); }
-.ba-label.after { background: rgba(212,255,0,0.1); color: var(--lime); }
-
-.ba-item {
-  display: flex; align-items: flex-start; gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--b1);
-  font-size: 14px;
-}
-
-.ba-item:last-child { border-bottom: none; }
-
-.ba-icon { flex-shrink: 0; font-size: 16px; padding-top: 2px; }
-
-.ba-sep {
-  background: var(--b1);
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 20px; letter-spacing: 0.1em;
-  color: var(--muted);
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-}
-
-/* ── PRICING ── */
-.pricing { background: var(--bg); }
-
-.pricing-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0;
-  border: 1px solid var(--b1);
-  margin-top: 48px;
-}
-
-@media (max-width: 640px) { .pricing-grid { grid-template-columns: 1fr; } }
-
-.plan {
-  padding: 36px 28px;
-  border-right: 1px solid var(--b1);
-  position: relative;
-}
-
-.plan:last-child { border-right: none; }
-
-.plan.featured {
-  background: var(--s1);
-  border-top: 3px solid var(--lime);
-}
-
-.plan-badge {
-  position: absolute; top: -1px; left: 50%;
-  transform: translateX(-50%);
-  background: var(--lime);
-  color: #0c0c0c;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 10px; font-weight: 700;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  padding: 3px 14px;
-  white-space: nowrap;
-}
-
-.plan-name {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 28px; letter-spacing: 0.05em;
-  color: var(--white);
-  margin-bottom: 4px;
-}
-
-.plan-target {
-  font-size: 12px; color: var(--muted);
-  letter-spacing: 0.04em;
-  margin-bottom: 24px;
-}
-
-.plan-price {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 60px; line-height: 0.9;
-  color: var(--lime);
-  letter-spacing: 0.01em;
-  margin-bottom: 6px;
-}
-
-.plan.featured .plan-price { font-size: 72px; }
-
-.plan-price .unit {
-  font-family: 'Barlow', sans-serif;
-  font-size: 16px; font-weight: 300;
-  color: var(--muted);
-  letter-spacing: 0;
-}
-
-.plan-billed {
-  font-size: 12px; color: var(--muted);
-  margin-bottom: 28px;
-}
-
-.plan-features {
-  list-style: none;
-  font-size: 13.5px;
-  color: var(--text);
-}
-
-.plan-features li {
-  padding: 8px 0;
-  border-bottom: 1px solid var(--b1);
-  display: flex; gap: 10px; align-items: flex-start;
-}
-
-.plan-features li:last-child { border-bottom: none; }
-
-.plan-features li::before {
-  content: '✓';
-  color: var(--lime);
-  font-weight: 600;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-
-.plan-cta {
-  display: block;
-  text-align: center;
-  margin-top: 28px;
-  padding: 13px 20px;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 14px; font-weight: 700;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  text-decoration: none;
-  transition: all 0.2s;
-  border: 1px solid var(--b2);
-  color: var(--text);
-}
-
-.plan-cta:hover { border-color: var(--white); color: var(--white); }
-
-.plan.featured .plan-cta {
-  background: var(--lime);
-  color: #0c0c0c;
-  border-color: var(--lime);
-  font-weight: 700;
-}
-
-.plan.featured .plan-cta:hover {
-  background: var(--lime2);
-}
-
-/* ── ZONE ── */
-.zone { background: var(--s1); }
-
-.zone-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  align-items: center;
-  margin-top: 48px;
-}
-
-@media (max-width: 640px) { .zone-grid { grid-template-columns: 1fr; } }
-
-.zone-cities {
-  display: flex; flex-direction: column; gap: 0;
-  border: 1px solid var(--b1);
-}
-
-.zone-city {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 22px;
-  border-bottom: 1px solid var(--b1);
-  font-size: 14px;
-}
-
-.zone-city:last-child { border-bottom: none; }
-
-.zone-city-name {
-  font-weight: 500; color: var(--white);
-}
-
-.zone-city-pop {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 12px; letter-spacing: 0.08em;
-  color: var(--muted);
-}
-
-.zone-city-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--lime);
-  flex-shrink: 0;
-  margin-right: 14px;
-}
-
-.zone-text h3 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 36px; letter-spacing: 0.04em;
-  color: var(--white);
-  margin-bottom: 16px;
-  line-height: 1.0;
-}
-
-.zone-text p { font-size: 14.5px; color: var(--text); line-height: 1.7; margin-bottom: 14px; }
-
-/* ── CTA FINAL ── */
-.cta-final {
-  background: var(--bg);
-  text-align: center;
-  padding: 120px 40px;
-  position: relative;
-  overflow: hidden;
-}
-
-.cta-final::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(212,255,0,0.06), transparent);
-}
-
-.cta-final h2 {
-  font-size: clamp(44px, 8vw, 96px);
-  margin-bottom: 20px;
-  position: relative;
-}
-
-.cta-final p {
-  font-size: 17px; color: var(--text);
-  max-width: 520px;
-  margin: 0 auto 40px;
-  line-height: 1.65;
-  position: relative;
-}
-
-.cta-final .btn-primary { font-size: 16px; padding: 18px 48px; position: relative; }
-
-.cta-note {
-  margin-top: 20px;
-  font-size: 12px; color: var(--muted);
-  letter-spacing: 0.04em;
-  position: relative;
-}
-
-/* ── FOOTER ── */
-footer {
-  background: var(--s1);
-  border-top: 1px solid var(--b1);
-  padding: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
-.foot-logo {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 20px; letter-spacing: 0.08em;
-  color: var(--white);
-}
-
-.foot-logo span { color: var(--lime); }
-
-.foot-links {
-  display: flex; gap: 24px;
-  list-style: none;
-}
-
-.foot-links a {
-  font-size: 12px; color: var(--muted);
-  text-decoration: none;
-  letter-spacing: 0.06em;
-  transition: color 0.2s;
-}
-
-.foot-links a:hover { color: var(--white); }
-
-.foot-copy {
-  font-size: 12px; color: var(--muted);
-  letter-spacing: 0.04em;
-}
-
-/* ── URGENCY BANNER ── */
-.urgency {
-  background: var(--red);
-  padding: 14px 40px;
-  display: flex; align-items: center; justify-content: center; gap: 16px;
-  flex-wrap: wrap;
-}
-
-.urgency-text {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 14px; font-weight: 700;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  color: #fff;
-}
-
-.urgency-cta {
-  background: #fff;
-  color: var(--red);
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 12px; font-weight: 700;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  padding: 6px 16px;
-  text-decoration: none;
-  transition: background 0.2s;
-}
-
-.urgency-cta:hover { background: #f5f2ec; }
-
-/* ── TESTIMONIAL ── */
-.testimonials { background: var(--s2); }
-
-.testi-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--b1);
-  border: 1px solid var(--b1);
-  margin-top: 48px;
-}
-
-@media (max-width: 640px) { .testi-grid { grid-template-columns: 1fr; } }
-
-.testi-card {
-  background: var(--s1);
-  padding: 28px;
-}
-
-.testi-stars { color: var(--lime); font-size: 16px; margin-bottom: 16px; letter-spacing: 2px; }
-
-.testi-quote {
-  font-style: italic;
-  font-size: 14.5px; color: var(--text);
-  line-height: 1.7;
-  margin-bottom: 20px;
-}
-
-.testi-author {
-  display: flex; align-items: center; gap: 12px;
-}
-
-.testi-avatar {
-  width: 40px; height: 40px;
-  background: var(--s2);
-  border: 1px solid var(--b2);
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 18px; color: var(--lime);
-  flex-shrink: 0;
-}
-
-.testi-name {
-  font-weight: 600; font-size: 13.5px; color: var(--white);
-}
-
-.testi-role { font-size: 12px; color: var(--muted); }
-
-/* Scroll animations */
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: none;
-}
+:root{
+  --bg:#fdf6ee; --card:#fffaf4; --ink:#17332b; --muted:#4d6159;
+  --orange:#e8631e; --orange-soft:#fde6d3; --green:#1d3a31; --line:#f0dfcd;
+  --serif:'Fraunces',Georgia,serif; --script:'Caveat',cursive; --sans:'Inter',system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg:#101c18;--card:#162621;--ink:#f3ebe2;--muted:#b6c3bc;--orange-soft:#2c2018;--line:#27403a;--green:#0b1512}
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.15;letter-spacing:-.01em}
+.script{font-family:var(--script);color:var(--orange);font-weight:700}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--orange);color:#fff;text-decoration:none;font-weight:600;padding:14px 26px;border-radius:999px;border:0;cursor:pointer;font-size:1rem;font-family:inherit;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(232,99,30,.35)}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+.btn.ghost:hover{box-shadow:none;background:var(--ink);color:var(--bg)}
+:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+
+/* header */
+header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo svg{width:38px;height:38px}
+.logo b{font-family:var(--serif);font-weight:500;font-size:1.7rem;line-height:1}
+.logo small{display:block;font-size:.6rem;letter-spacing:.18em;color:var(--orange);font-weight:600;margin-top:2px}
+nav{display:flex;gap:26px;align-items:center}
+nav a{text-decoration:none;font-weight:500;font-size:.95rem}
+nav a:hover{color:var(--orange)}
+nav .btn{padding:10px 20px;color:#fff}
+nav .btn:hover{color:#fff}
+@media(max-width:820px){nav a:not(.btn){display:none}}
+
+/* hero */
+.hero{padding:72px 0 64px;position:relative;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.25fr 1fr;gap:48px;align-items:center}
+.hero h1{font-size:clamp(2.2rem,5vw,3.6rem)}
+.hero h1 .script{display:block;font-size:1.05em;margin-top:6px;font-weight:700}
+.hero p.lead{font-size:1.15rem;color:var(--muted);margin:22px 0 30px;max-width:520px}
+.hero .cta{display:flex;gap:14px;flex-wrap:wrap}
+.hero-card{position:relative;background:linear-gradient(160deg,var(--orange-soft),var(--card));border:1px solid var(--line);border-radius:28px;padding:34px;min-height:340px;display:flex;flex-direction:column;justify-content:center;gap:16px}
+.hero-card .badge{position:absolute;top:-22px;right:-8px;transform:rotate(6deg);background:var(--orange);color:#fff;font-family:var(--script);font-size:1.5rem;line-height:1.05;padding:14px 22px;border-radius:18px;text-align:center;box-shadow:0 10px 24px rgba(232,99,30,.35)}
+.hero-card li{list-style:none;display:flex;gap:12px;align-items:flex-start;font-weight:500}
+.hero-card ul{display:grid;gap:14px;padding:0}
+.ic{flex:none;width:28px;height:28px;border-radius:50%;background:var(--orange);display:grid;place-items:center}
+.ic svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:820px){.hero .wrap{grid-template-columns:1fr}.hero{padding-top:44px}.hero-card .badge{right:8px}}
+
+section{padding:76px 0}
+.sec-head{text-align:center;max-width:640px;margin:0 auto 44px}
+.sec-head h2{font-size:clamp(1.8rem,3.4vw,2.5rem)}
+.sec-head p{color:var(--muted);margin-top:12px}
+
+/* offers */
+.offers{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch}
+.offer{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:32px 28px;display:flex;flex-direction:column;position:relative}
+.offer h3{font-size:1.6rem;margin-bottom:14px}
+.offer .price{font-family:var(--serif);font-weight:600;color:var(--orange);font-size:2.6rem;line-height:1}
+.offer .price small{font-size:1.1rem}
+.offer .sub{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:6px 0 16px;font-weight:500}
+.offer .price2{font-family:var(--serif);font-size:1.9rem;font-weight:600;padding-top:16px;border-top:1px solid var(--line)}
+.offer .plus{font-family:var(--serif);color:var(--orange);font-size:1.6rem;line-height:1}
+.offer ul{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:11px}
+.offer li{display:flex;gap:10px;align-items:flex-start;font-size:.95rem}
+.offer li .ic{width:22px;height:22px;margin-top:2px}.offer li .ic svg{width:12px;height:12px}
+.offer .note{margin-top:auto;padding-top:22px}
+.offer .note p{background:var(--orange-soft);border-radius:14px;padding:12px 16px;font-size:.88rem;color:var(--muted)}
+.offer.main{background:linear-gradient(170deg,var(--orange-soft),var(--card));border:3px solid var(--orange);box-shadow:0 18px 40px rgba(232,99,30,.18);transform:translateY(-10px)}
+.offer.main .tag{position:absolute;top:-16px;left:50%;transform:translateX(-50%);background:var(--orange);color:#fff;font-weight:700;font-size:.8rem;letter-spacing:.1em;padding:7px 20px;border-radius:999px;white-space:nowrap}
+.offer .btn{margin-top:24px;justify-content:center}
+@media(max-width:920px){.offers{grid-template-columns:1fr;max-width:520px;margin:0 auto}.offer.main{transform:none;order:-1}}
+
+.advantage{margin-top:44px;background:var(--orange-soft);border-radius:22px;padding:22px 30px;display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.advantage .pill{background:var(--orange);color:#fff;font-weight:700;letter-spacing:.04em;padding:10px 20px;border-radius:12px;font-size:.9rem}
+.advantage p{font-size:.95rem;color:var(--muted)}
+.advantage p b{font-family:var(--serif);font-size:1.5rem;color:var(--orange)}
+.advantage p strong{color:var(--ink)}
+
+/* social */
+.social{background:var(--green);color:#f3ebe2}
+.social .grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.social h2{font-size:clamp(1.7rem,3vw,2.3rem);margin:8px 0 14px}
+.eyebrow{font-weight:700;letter-spacing:.14em;font-size:.78rem;color:#f4a06b;text-transform:uppercase}
+.social p{color:#cdd8d2}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px}
+.plan{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:20px}
+.plan span{display:block;font-weight:500;font-size:.95rem}
+.plan b{font-family:var(--serif);color:#f4a06b;font-size:1.9rem;font-weight:600}
+.nets{display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
+.net{width:120px;height:120px;border-radius:30px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:.85rem;box-shadow:0 10px 24px rgba(0,0,0,.3)}
+.net svg{width:46px;height:46px;fill:#fff}
+.net.fb{background:#1877f2}.net.ig{background:linear-gradient(45deg,#f9a03f,#e1306c,#833ab4)}.net.li{background:#0a66c2}
+.net span{display:block;font-size:.8rem;margin-top:-18px}
+@media(max-width:820px){.social .grid{grid-template-columns:1fr}}
+
+/* why */
+.why{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+.why div{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:26px 22px}
+.why svg{width:34px;height:34px;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-bottom:12px}
+.why h3{font-size:1.15rem;margin-bottom:6px}
+.why p{font-size:.92rem;color:var(--muted)}
+
+.pillars{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-top:44px;text-align:center}
+.pillars span{font-family:var(--serif);font-size:1.15rem;font-weight:500}
+.pillars span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--orange);margin-right:10px}
+
+/* contact */
+.contact{background:var(--green);color:#f3ebe2}
+.contact .grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.contact h2{font-size:clamp(1.8rem,3.4vw,2.6rem)}
+.contact .script{font-size:1.9rem;display:block;margin:10px 0 24px;color:#f4a06b}
+.contact .info a{display:flex;gap:12px;align-items:center;text-decoration:none;font-size:1.25rem;margin:12px 0}
+.contact .info a:hover{color:#f4a06b}
+.contact .info svg{width:22px;height:22px;stroke:#f4a06b;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+form{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:28px;display:grid;gap:14px}
+label{font-size:.85rem;font-weight:600}
+input,select,textarea{width:100%;margin-top:5px;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.2);color:#fff;font:inherit}
+select option{color:#000}
+input::placeholder,textarea::placeholder{color:#9fb0a8}
+@media(max-width:820px){.contact .grid{grid-template-columns:1fr}}
+
+footer{background:#0b1512;color:#9fb0a8;font-size:.85rem;padding:26px 0;text-align:center}
+footer a{color:#cdd8d2}
 </style>
 </head>
 <body>
 
-<!-- URGENCY BAR -->
-<div class="urgency">
-  <div class="urgency-text">🔴 En ce moment, vos concurrents reçoivent des appels que vous ne verrez jamais</div>
-  <a href="#audit" class="urgency-cta">Audit gratuit →</a>
-</div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="leaf" viewBox="0 0 64 64"><path d="M30 4C14 6 4 20 6 36c16 0 26-12 24-32z" fill="#ee7a3c"/><path d="M34 26c0 18 9 30 26 30 2-16-10-30-26-30z" fill="#f4a06b"/><path d="M8 44c10 0 18 4 20 16-12 2-20-4-20-16z" fill="#e8631e"/></symbol>
+  <symbol id="check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></symbol>
+</svg>
 
-<!-- NAV -->
-<nav id="nav">
-  <a href="#" class="nav-logo">COG<span>NELIA</span></a>
-  <ul class="nav-links">
-    <li><a href="#probleme">Le problème</a></li>
-    <li><a href="#solution">La solution</a></li>
-    <li><a href="#tarifs">Tarifs</a></li>
-    <li><a href="#audit" class="btn-nav">Audit gratuit →</a></li>
-  </ul>
-</nav>
-
-<!-- HERO -->
-<section class="hero" id="accueil">
-  <div class="hero-bg"></div>
-
-  <div class="hero-eyebrow">
-    <div class="hero-eyebrow-dot"></div>
-    <span class="hero-eyebrow-text">Cognelia · Fait en Bretagne · BZH 🏴󠁧󠁢󠁳󠁣󠁴󠁿</span>
-  </div>
-
-  <h1>
-    VOS<br>
-    CONCURRENTS<br>
-    <span class="lime">PRENNENT</span><br>
-    <span class="outline">VOS CLIENTS</span><br>
-    SUR GOOGLE.
-  </h1>
-
-  <p class="hero-sub">
-    <strong>43% des artisans bretons n'ont pas de site web.</strong><br>
-    Chaque semaine sans présence digitale, c'est 3 appels qui vont chez quelqu'un d'autre. Cognelia règle ça en 48 heures — depuis la Bretagne, pour la Bretagne.
-  </p>
-
-  <div class="hero-ctas">
-    <a href="#audit" class="btn-primary">
-      Audit gratuit de ma visibilité →
+<header>
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Cognelia – accueil">
+      <svg><use href="#leaf"/></svg>
+      <span><b>Cognelia</b><small>VOTRE ALLIÉE NUMÉRIQUE</small></span>
     </a>
-    <a href="#solution" class="btn-ghost">Voir comment ça marche</a>
+    <nav>
+      <a href="#offres">Offres</a>
+      <a href="#reseaux">Réseaux sociaux</a>
+      <a href="#pourquoi">Pourquoi Cognelia</a>
+      <a class="btn" href="#contact">Parlons-en</a>
+    </nav>
   </div>
+</header>
 
-  <div class="hero-counter">
-    <div class="counter-label">Leads perdus aujourd'hui</div>
-    <div class="counter-num" id="counter">0</div>
-    <div class="counter-sub">par les artisans bretons sans site web</div>
-  </div>
-</section>
-
-<!-- STATS BAR -->
-<div class="stats-bar">
-  <div class="stat">
-    <div class="stat-n">48H</div>
-    <div class="stat-l">De la voix<br>au site en ligne</div>
-  </div>
-  <div class="stat">
-    <div class="stat-n">0€</div>
-    <div class="stat-l">D'avance<br>à payer</div>
-  </div>
-  <div class="stat">
-    <div class="stat-n">6 000+</div>
-    <div class="stat-l">Artisans BTP<br>en Bretagne</div>
-  </div>
-  <div class="stat">
-    <div class="stat-n">×23</div>
-    <div class="stat-l">ROI moyen<br>dès le mois 1</div>
-  </div>
-</div>
-
-<!-- PROBLEM -->
-<section class="problem" id="probleme">
-  <div class="section-max">
-    <div class="section-tag reveal">Le problème</div>
-    <h2 class="reveal">CE QUI SE PASSE<br>PENDANT QUE VOUS<br><span class="red">TRAVAILLEZ.</span></h2>
-
-    <div class="problem-grid reveal">
-      <div class="prob-cell dark">
-        <div class="prob-icon">📱</div>
-        <div class="prob-title">Votre client cherche sur Google</div>
-        <p class="prob-body">Un propriétaire à Brest a une fuite. Il prend son téléphone. Il tape "plombier Brest urgent". En 10 secondes, il appelle le premier résultat. Ce n'est pas vous — vous n'êtes nulle part.</p>
-      </div>
-        <div class="prob-cell.red" style="background:var(--s1); padding:36px 32px;">
-        <div class="prob-icon">💸</div>
-        <div class="prob-title" style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.04em;color:var(--red);margin-bottom:10px;line-height:1.1;">Ce que ça vous coûte vraiment</div>
-        <p class="prob-body" style="font-size:14.5px;color:var(--text);line-height:1.7;">3 appels perdus par semaine × 350€ de facture moyenne = <strong style="color:#fff">4 200€ par mois</strong> qui partent directement chez votre concurrent. Par an, c'est plus de 50 000€ de chiffre d'affaires invisible.</p>
-      </div>
-      <div class="prob-cell">
-        <div class="prob-icon">🏗️</div>
-        <div class="prob-title">"Je vis du bouche-à-oreille"</div>
-        <p class="prob-body">C'est vrai aujourd'hui. Mais 72% des gens cherchent en ligne avant d'appeler, même si on leur a recommandé quelqu'un. Pas de site = pas de confiance = ils appellent quelqu'un d'autre quand même.</p>
-      </div>
-      <div class="prob-cell dark">
-        <div class="prob-icon">😤</div>
-        <div class="prob-title">"Une agence m'a demandé 5 000€"</div>
-        <p class="prob-body">Je comprends. Les agences classiques facturent cher, livrent en 3 mois, puis disparaissent. Vous vous retrouvez avec un site que vous ne savez pas gérer et personne pour vous aider. Ce modèle est mort.</p>
+<main id="top">
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <h1>Plus de visibilité, moins d’administratif,
+        <span class="script">plus de temps pour votre métier !</span></h1>
+      <p class="lead">Des solutions simples et concrètes pour développer votre activité et vous libérer des tâches administratives.</p>
+      <div class="cta">
+        <a class="btn" href="#contact">Parlons de votre activité !</a>
+        <a class="btn ghost" href="#offres">Voir les offres</a>
       </div>
     </div>
-
-    <!-- Google search mockup -->
-    <div class="reveal" style="margin-top: 48px;">
-      <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px;">📍 Ce que voit votre futur client sur Google</div>
-      <div class="google-mock">
-        <div class="g-bar">
-          <span style="color:#666; font-size:18px;">🔍</span>
-          <span>plombier brest urgence</span>
-        </div>
-        <div class="g-result">
-          <div class="g-url">brest-plomberie.fr › urgence</div>
-          <div class="g-title">Plomberie Brest — Dépannage 7j/7 — Intervention 1h</div>
-          <div class="g-desc">Plombier qualifié à Brest et Brest Métropole. Devis gratuit, intervention rapide. RGE certifié. ⭐⭐⭐⭐⭐ 127 avis clients.</div>
-        </div>
-        <div class="g-result">
-          <div class="g-url">plomberie-finistere.fr › contact</div>
-          <div class="g-title">Plomberie du Finistère — Brest, Landerneau, Quimper</div>
-          <div class="g-desc">Artisan plombier chauffagiste depuis 15 ans. Chauffe-eau, salle de bain, dépannage. Disponible du lundi au samedi.</div>
-        </div>
-        <div class="g-result you">
-          <div class="g-you-label">👆 Vous — résultat actuel</div>
-          <div class="g-invisible">Aucun résultat trouvé pour votre entreprise.<br>Vos clients ne vous trouvent pas en ligne.</div>
-        </div>
-      </div>
+    <div class="hero-card">
+      <div class="badge">Des outils simples<br>pour une activité<br>sereine !</div>
+      <ul>
+        <li><span class="ic"><svg><use href="#check"/></svg></span>Un site vitrine professionnel, adapté mobile</li>
+        <li><span class="ic"><svg><use href="#check"/></svg></span>Une meilleure visibilité sur Google</li>
+        <li><span class="ic"><svg><use href="#check"/></svg></span>Votre administratif classé et relancé</li>
+        <li><span class="ic"><svg><use href="#check"/></svg></span>Un interlocuteur unique, de proximité</li>
+      </ul>
     </div>
   </div>
 </section>
 
-<!-- SOLUTION -->
-<section class="solution" id="solution">
-  <div class="section-max">
-    <div class="section-tag reveal">La solution</div>
-    <h2 class="reveal">UN SITE QUI<br><span class="lime">TRAVAILLE</span><br>POUR VOUS.</h2>
-    <p class="reveal" style="font-size:17px; color:var(--text); max-width:600px; margin-bottom:0; line-height:1.65;">Pas juste un site vitrine. Une machine à générer des appels entrants depuis Google — spécifiquement conçue pour les artisans du Finistère, livrée en 48 heures, pour moins qu'une journée de travail par mois.</p>
-
-    <div class="sol-grid reveal">
-      <div class="sol-card">
-        <div class="sol-num">01</div>
-        <div class="sol-title">Visible sur Google Maps</div>
-        <p class="sol-body">Votre site + fiche Google My Business optimisée = vous apparaissez quand quelqu'un cherche votre métier à Brest. C'est là que se prennent 80% des décisions.</p>
-      </div>
-      <div class="sol-card">
-        <div class="sol-num">02</div>
-        <div class="sol-title">Livré en 48 heures</div>
-        <p class="sol-body">Un appel de 30 min. Vous parlez, je prends note. 48h plus tard, votre site est en ligne avec vos services, votre zone d'intervention, votre numéro. Pas 3 mois d'attente.</p>
-      </div>
-      <div class="sol-card">
-        <div class="sol-num">03</div>
-        <div class="sol-title">Abonnement mensuel</div>
-        <p class="sol-body">Pas de 5 000€ à sortir d'un coup. Un abonnement mensuel, sans engagement, avec hébergement, maintenance et mises à jour inclus. Vous résiliez quand vous voulez.</p>
-      </div>
-      <div class="sol-card">
-        <div class="sol-num">04</div>
-        <div class="sol-title">100% fait en Bretagne</div>
-        <p class="sol-body">Cognelia travaille exclusivement avec des artisans bretons. 4 départements, des dizaines de villes. On connaît le marché, les habitudes de recherche, les concurrents de chaque secteur. Du Finistère au Morbihan, des Côtes-d'Armor à l'Ille-et-Vilaine.</p>
-      </div>
-      <div class="sol-card">
-        <div class="sol-num">05</div>
-        <div class="sol-title">Génération d'avis clients</div>
-        <p class="sol-body">Un système automatique demande un avis Google à vos clients satisfaits après chaque chantier. Plus d'avis = mieux classé = plus d'appels. Sans que vous ayez à faire quoi que ce soit.</p>
-      </div>
-      <div class="sol-card">
-        <div class="sol-num">06</div>
-        <div class="sol-title">Rapport mensuel</div>
-        <p class="sol-body">Chaque mois, vous recevez un rapport simple : combien de fois vous êtes apparu sur Google, combien de personnes ont visité votre site, d'où viennent vos visiteurs.</p>
-      </div>
+<section id="offres">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Des offres claires, sans surprise</h2>
+      <p>Choisissez la formule qui correspond à votre activité. Tout est expliqué, tout est chiffré.</p>
     </div>
-  </div>
-</section>
 
-<!-- PROCESS -->
-<section class="process" id="process">
-  <div class="section-max">
-    <div class="section-tag reveal">Comment ça marche</div>
-    <h2 class="reveal">3 ÉTAPES.<br><span class="lime">48 HEURES.</span></h2>
-
-    <div class="process-steps reveal">
-      <div class="p-step">
-        <div class="p-num-box">1</div>
-        <div class="p-body">
-          <div class="p-title">Un appel de 30 minutes — vous parlez, je note tout</div>
-          <p class="p-desc">On se retrouve en visio ou par téléphone. Vous me racontez votre activité : ce que vous faites, votre zone, vos spécialités, ce qui vous différencie. Pas de formulaire, pas de questionnaire. Juste une conversation naturelle. Je m'occupe du reste.</p>
-          <span class="p-badge">⏱ 30 min de votre temps</span>
-        </div>
-      </div>
-      <div class="p-step">
-        <div class="p-num-box">2</div>
-        <div class="p-body">
-          <div class="p-title">Je construis votre site — vous validez en 5 minutes</div>
-          <p class="p-desc">Dans les 24h, je vous envoie un lien de prévisualisation de votre site complet : page d'accueil, vos services, votre zone d'intervention, vos coordonnées, formulaire de contact. Vous regardez, vous me dites ce que vous voulez changer. 2 rounds de correction inclus.</p>
-          <span class="p-badge">⏱ 24h de production</span>
-        </div>
-      </div>
-      <div class="p-step">
-        <div class="p-num-box">3</div>
-        <div class="p-body">
-          <div class="p-title">Mise en ligne + Google — les premiers appels arrivent</div>
-          <p class="p-desc">Votre site est mis en ligne sur votre domaine. Je connecte Google Search Console pour que vous soyez indexé rapidement. J'optimise votre fiche Google My Business. Dans les 30 premiers jours, vous commencez à apparaître quand quelqu'un cherche votre métier à Brest.</p>
-          <span class="p-badge">✓ Site en ligne en 48h</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- BEFORE AFTER -->
-<section class="beforeafter">
-  <div class="section-max">
-    <div class="section-tag reveal">Avant · Après</div>
-    <h2 class="reveal">LA DIFFÉRENCE<br><span class="lime">EN VRAI.</span></h2>
-
-    <div class="ba-grid reveal">
-      <div class="ba-side">
-        <span class="ba-label before">Avant — sans site</span>
-        <div class="ba-item">
-          <span class="ba-icon">❌</span>
-          <span>Invisible sur Google — vos concurrents prennent vos appels</span>
-        </div>
-        <div class="ba-item">
-          <span class="ba-icon">❌</span>
-          <span>Dépendant du bouche-à-oreille qui s'épuise avec le temps</span>
-        </div>
-        <div class="ba-item">
-          <span class="ba-icon">❌</span>
-          <span>Aucun moyen de montrer vos réalisations à un prospect</span>
-        </div>
-        <div class="ba-item">
-          <span class="ba-icon">❌</span>
-          <span>Clients qui doutent de votre sérieux sans présence en ligne</span>
-        </div>
-        <div class="ba-item">
-          <span class="ba-icon">❌</span>
-          <span>Aucune demande de devis en dehors des heures de travail</span>
-        </div>
-        <div class="ba-item">
-          <span class="ba-icon">❌</span>
-          <span>Pas d'avis Google = moins bien classé que vos concurrents</span>
-        </div>
-      </div>
-      <div class="ba-sep">VS</div>
-      <div class="ba-side">
-        <span class="ba-label after">Après — avec votre site</span>
-        <div class="ba-item">
-          <span class="ba-icon" style="color:var(--lime)">✓</span>
-          <span style="color:var(--white)">1ère page Google pour "votre métier + Brest" en 30 jours</span>
-        </div>
-        <div class="ba-item">
-          <span class="ba-icon" style="color:var(--lime)">✓</span>
-          <span style="color:var(--white)">Appels entrants de nouveaux clients que vous ne connaissiez pas</span>
-        </div>
-        <div class="ba-item">
-          <span class="ba-icon" style="color:var(--lime)">✓</span>
-          <span style="color:var(--white)">Galerie photos de vos chantiers — preuve sociale immédiate</span>
-        </div>
-        <div class="ba-item">
-          <span class="ba-icon" style="color:var(--lime)">✓</span>
-          <span style="color:var(--white)">Site professionnel = confiance avant même le premier appel</span>
-        </div>
-        <div class="ba-item">
-          <span class="ba-icon" style="color:var(--lime)">✓</span>
-          <span style="color:var(--white)">Formulaire de contact — demandes de devis 24h/24, 7j/7</span>
-        </div>
-        <div class="ba-item">
-          <span class="ba-icon" style="color:var(--lime)">✓</span>
-          <span style="color:var(--white)">Système automatique de collecte d'avis Google</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section class="testimonials">
-  <div class="section-max">
-    <div class="section-tag reveal">Témoignages</div>
-    <h2 class="reveal">ILS ONT<br><span class="lime">FRANCHI</span> LE PAS.</h2>
-
-    <div class="testi-grid reveal">
-      <div class="testi-card">
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-quote">"En 3 semaines après la mise en ligne, j'ai reçu 6 appels de nouveaux clients. Le site s'est rentabilisé le premier mois. Je regrette de ne pas l'avoir fait avant."</p>
-        <div class="testi-author">
-          <div class="testi-avatar">MK</div>
-          <div>
-            <div class="testi-name">Michel K.</div>
-            <div class="testi-role">Plombier — Brest</div>
-          </div>
-        </div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-quote">"J'avais peur que ce soit compliqué. L'appel a duré 25 minutes, je parlais de mon activité normalement. 48h après, le site était là. Très simple, très efficace."</p>
-        <div class="testi-author">
-          <div class="testi-avatar">SL</div>
-          <div>
-            <div class="testi-name">Sophie L.</div>
-            <div class="testi-role">Électricienne — Landerneau</div>
-          </div>
-        </div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-stars">★★★★★</div>
-        <p class="testi-quote">"Mes concurrents sont en 1ère page depuis des années. Maintenant j'y suis aussi. Et le rapport mensuel me montre concrètement ce qui se passe — ça donne confiance."</p>
-        <div class="testi-author">
-          <div class="testi-avatar">JB</div>
-          <div>
-            <div class="testi-name">Jean-Baptiste B.</div>
-            <div class="testi-role">Couvreur — Quimper</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section class="pricing" id="tarifs">
-  <div class="section-max">
-    <div class="section-tag reveal">Tarif</div>
-    <h2 class="reveal">SIMPLE.<br><span class="lime">SANS SURPRISE.</span></h2>
-    <p class="reveal" style="color:var(--text); font-size:15px; margin-bottom:0;">Une seule offre. Tout inclus. Sans engagement.</p>
-
-    <div class="reveal" style="max-width:520px; margin: 48px auto 0; border: 1px solid var(--b1);">
-      <div class="plan featured" style="border-top: 3px solid var(--lime); border-right:none; padding: 48px 40px;">
-        <div class="plan-name" style="font-size:36px;">L'Offre Locale</div>
-        <div class="plan-target" style="margin-bottom:28px;">Pour les artisans du Finistère qui veulent être trouvés sur Google</div>
-        <div class="plan-price" style="font-size:80px;">179<span class="unit"> €/mois</span></div>
-        <div class="plan-billed" style="margin-bottom:36px; font-size:13px;">sans engagement · résiliable à tout moment · 0€ de setup</div>
-        <ul class="plan-features">
-          <li>Site 5 pages sur-mesure livré en 48h</li>
-          <li>Hébergement + SSL inclus</li>
-          <li>SEO local optimisé — 1ère page Google</li>
-          <li>Fiche Google My Business gérée</li>
-          <li>3 mises à jour par mois</li>
-          <li>Rapport mensuel de vos positions</li>
-          <li>Demandes d'avis Google automatiques</li>
-          <li>Formulaire de contact + appel direct</li>
-          <li>Responsive mobile parfait</li>
+    <div class="offers">
+      <article class="offer">
+        <h3>Site web seul</h3>
+        <div class="price">1&nbsp;490&nbsp;€</div>
+        <div class="sub">Création et lancement (paiement unique)</div>
+        <div class="price2">149&nbsp;€<small>/mois</small></div>
+        <div class="sub">Hébergement et maintenance (mises à jour courantes incluses)</div>
+        <ul>
+          <li><span class="ic"><svg><use href="#check"/></svg></span>Site vitrine jusqu’à 5 pages</li>
+          <li><span class="ic"><svg><use href="#check"/></svg></span>Adapté mobile</li>
+          <li><span class="ic"><svg><use href="#check"/></svg></span>Formulaire de contact</li>
+          <li><span class="ic"><svg><use href="#check"/></svg></span>Référencement local (bases)</li>
         </ul>
-        <a href="#audit" class="plan-cta" style="margin-top:36px; font-size:15px; padding:16px;">
-          Demander mon audit gratuit →
-        </a>
-        <p style="text-align:center; margin-top:16px; font-size:12px; color:var(--muted);">
-          Soit 5,90€ par jour · 1 chantier récupéré = rentabilisé
-        </p>
-      </div>
+        <a class="btn ghost" href="#contact">Demander un devis</a>
+      </article>
+
+      <article class="offer">
+        <h3>Aide administrative seule</h3>
+        <div class="price">220&nbsp;€<small>/mois</small></div>
+        <div class="sub">Jusqu’à 2 heures par mois</div>
+        <ul>
+          <li><span class="ic"><svg><use href="#check"/></svg></span>Préparation et classement des documents pour votre comptable</li>
+          <li><span class="ic"><svg><use href="#check"/></svg></span>Relances pour les documents manquants</li>
+        </ul>
+        <div class="note"><p>ℹ️ Un service ciblé et pratique, avec un périmètre clair.</p></div>
+        <a class="btn ghost" href="#contact">Demander un devis</a>
+      </article>
+
+      <article class="offer main">
+        <span class="tag">★ OFFRE PRINCIPALE</span>
+        <h3>Pack Sérénité</h3>
+        <div class="price">690&nbsp;€</div>
+        <div class="sub">Création et lancement</div>
+        <div class="plus">+</div>
+        <div class="price">299&nbsp;€<small>/mois</small></div>
+        <p style="font-size:.92rem;color:var(--muted);margin-top:12px">Un accompagnement régulier pour garder votre présence en ligne à jour et votre administratif organisé.</p>
+        <ul>
+          <li><span class="ic"><svg><use href="#check"/></svg></span>Site vitrine jusqu’à 5 pages</li>
+          <li><span class="ic"><svg><use href="#check"/></svg></span>Hébergement et maintenance (mises à jour courantes incluses)</li>
+          <li><span class="ic"><svg><use href="#check"/></svg></span>Suivi de la visibilité Google (fiche, avis, optimisation)</li>
+          <li><span class="ic"><svg><use href="#check"/></svg></span>Jusqu’à 2 heures d’aide administrative par mois (classement et relances)</li>
+        </ul>
+        <a class="btn" href="#contact">Choisir le Pack Sérénité</a>
+      </article>
+    </div>
+
+    <div class="advantage">
+      <span class="pill">L’AVANTAGE DU PACK SÉRÉNITÉ</span>
+      <p><b>800&nbsp;€ d’économies</b> <strong>sur la création du site</strong><br>et 70&nbsp;€/mois d’économie par rapport aux services séparés.</p>
     </div>
   </div>
 </section>
 
-<!-- ZONE -->
-<section class="zone">
-  <div class="section-max">
-    <div class="section-tag reveal">Zone d'intervention</div>
-    <h2 class="reveal">TOUTE LA<br><span class="lime">BRETAGNE.</span></h2>
-
-    <div class="zone-grid reveal">
-      <div class="zone-cities">
-        <div class="zone-city">
-          <div style="display:flex;align-items:center;">
-            <div class="zone-city-dot"></div>
-            <span class="zone-city-name">Finistère (29) — Brest, Quimper, Morlaix</span>
-          </div>
-          <span class="zone-city-pop">~910 000 hab.</span>
-        </div>
-        <div class="zone-city">
-          <div style="display:flex;align-items:center;">
-            <div class="zone-city-dot"></div>
-            <span class="zone-city-name">Ille-et-Vilaine (35) — Rennes, Saint-Malo</span>
-          </div>
-          <span class="zone-city-pop">~1 100 000 hab.</span>
-        </div>
-        <div class="zone-city">
-          <div style="display:flex;align-items:center;">
-            <div class="zone-city-dot"></div>
-            <span class="zone-city-name">Morbihan (56) — Vannes, Lorient, Pontivy</span>
-          </div>
-          <span class="zone-city-pop">~760 000 hab.</span>
-        </div>
-        <div class="zone-city">
-          <div style="display:flex;align-items:center;">
-            <div class="zone-city-dot"></div>
-            <span class="zone-city-name">Côtes-d'Armor (22) — Saint-Brieuc, Lannion</span>
-          </div>
-          <span class="zone-city-pop">~600 000 hab.</span>
-        </div>
-        <div class="zone-city">
-          <div style="display:flex;align-items:center;">
-            <div class="zone-city-dot" style="background:var(--lime2);"></div>
-            <span class="zone-city-name" style="color:var(--lime);">3,4 millions de Bretons. 6 000 artisans.</span>
-          </div>
-          <span class="zone-city-pop">Breizh 🏴</span>
-        </div>
+<section id="reseaux" class="social">
+  <div class="wrap grid">
+    <div>
+      <span class="eyebrow">Option réseaux sociaux</span>
+      <h2>Gagnez en visibilité sur les réseaux sociaux !</h2>
+      <p>Je crée et programme vos publications à partir de vos photos, avec des textes courts et professionnels.</p>
+      <div class="plans">
+        <div class="plan"><span>4 publications par mois</span><b>150&nbsp;€/mois</b></div>
+        <div class="plan"><span>8 publications par mois</span><b>250&nbsp;€/mois</b></div>
       </div>
-
-      <div class="zone-text">
-        <h3>ON EST<br>D'ICI.<br>ON RESTE ICI.</h3>
-        <p>Cognelia c'est une agence bretonne, pas une plateforme parisienne qui sous-traite à l'autre bout de la France. On connaît la différence entre un client à Kerinou et un à Plougastel. On sait pourquoi les artisans du Morbihan parlent différemment de ceux du Léon.</p>
-        <p>Cette connaissance du terrain, aucun outil IA générique ne peut la remplacer. C'est notre vraie valeur ajoutée.</p>
-        <a href="#audit" class="btn-primary" style="margin-top:8px; display:inline-flex;">
-          Tester ma visibilité →
-        </a>
-      </div>
+    </div>
+    <div class="nets" aria-label="Facebook, Instagram, LinkedIn">
+      <div class="net fb"><svg viewBox="0 0 24 24"><path d="M13.5 22v-8.2h2.8l.5-3.3h-3.3V8.4c0-.9.4-1.7 1.8-1.7H17V3.8c-.3 0-1.3-.2-2.5-.2-2.6 0-4.3 1.600-4.300 4.500v2.400H7.500v3.300h2.700V22z"/></svg></div>
+      <div class="net ig"><svg viewBox="0 0 24 24"><path d="M12 7.300A4.700 4.700 0 1 0 12 16.700 4.700 4.700 0 0 0 12 7.300zm0 7.700a3 3 0 1 1 0-6 3 3 0 0 1 0 6zM17.200 5.500a1.100 1.100 0 1 0 0 2.200 1.100 1.100 0 0 0 0-2.200zM16 2H8a6 6 0 0 0-6 6v8a6 6 0 0 0 6 6h8a6 6 0 0 0 6-6V8a6 6 0 0 0-6-6zm4 14a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4z"/></svg></div>
+      <div class="net li"><svg viewBox="0 0 24 24"><path d="M4.500 8.800h3.700V20H4.500zM6.400 3.200a2.100 2.100 0 1 1 0 4.200 2.100 2.100 0 0 1 0-4.200zM10.400 8.800H14v1.500c.5-1 1.800-1.800 3.600-1.800 3.700 0 4.400 2.400 4.400 5.600V20h-3.700v-5.100c0-1.300 0-2.900-1.800-2.900s-2 1.400-2 2.800V20h-3.700z"/></svg></div>
     </div>
   </div>
 </section>
 
-<!-- CTA FINAL -->
-<section class="cta-final" id="audit">
-  <div style="position:relative; max-width:640px; margin:0 auto;">
-    <h2>PRÊT À<br>ÊTRE <span class="lime">TROUVÉ</span> ?</h2>
-    <p>Julien fait un audit gratuit de votre visibilité Google sous 24h. Vous verrez exactement combien de clients vous perdez chaque semaine — et ce qu'on peut faire ensemble.</p>
-
-    <!-- FORM -->
-    <div style="background:var(--s1); border:1px solid var(--b1); padding:36px; margin-top:40px; text-align:left;">
-      <div style="font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--lime); margin-bottom:24px;">
-        Votre audit gratuit en 3 champs
-      </div>
-
-      <div style="display:flex; flex-direction:column; gap:14px;">
-        <div>
-          <label style="font-size:12px; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; display:block; margin-bottom:6px;">Votre prénom</label>
-          <input type="text" placeholder="Michel" id="f-nom"
-            style="width:100%; background:var(--bg); border:1px solid var(--b2); color:var(--white); padding:12px 16px; font-family:'Barlow',sans-serif; font-size:14px; outline:none; transition:border-color 0.2s;"
-            onfocus="this.style.borderColor='var(--lime)'" onblur="this.style.borderColor='var(--b2)'">
-        </div>
-        <div>
-          <label style="font-size:12px; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; display:block; margin-bottom:6px;">Votre téléphone</label>
-          <input type="tel" placeholder="06 XX XX XX XX" id="f-tel"
-            style="width:100%; background:var(--bg); border:1px solid var(--b2); color:var(--white); padding:12px 16px; font-family:'Barlow',sans-serif; font-size:14px; outline:none; transition:border-color 0.2s;"
-            onfocus="this.style.borderColor='var(--lime)'" onblur="this.style.borderColor='var(--b2)'">
-        </div>
-        <div>
-          <label style="font-size:12px; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; display:block; margin-bottom:6px;">Vous avez un site actuellement ?</label>
-          <div style="display:flex; gap:10px;">
-            <label style="flex:1; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--b2); padding:12px 16px; cursor:pointer; font-size:14px; color:var(--text); transition:border-color 0.2s;"
-              onmouseover="this.style.borderColor='var(--b2)'" id="lbl-non">
-              <input type="radio" name="site" value="non" style="accent-color:var(--lime);" onchange="document.getElementById('lbl-non').style.borderColor='var(--lime)'; document.getElementById('lbl-oui').style.borderColor='var(--b2)'">
-              Non, pas de site
-            </label>
-            <label style="flex:1; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--b2); padding:12px 16px; cursor:pointer; font-size:14px; color:var(--text);"
-              id="lbl-oui">
-              <input type="radio" name="site" value="oui" style="accent-color:var(--lime);" onchange="document.getElementById('lbl-oui').style.borderColor='var(--lime)'; document.getElementById('lbl-non').style.borderColor='var(--b2)'">
-              Oui, mais il est daté
-            </label>
-          </div>
-        </div>
-
-        <button onclick="sendAudit()" id="btn-submit"
-          style="width:100%; background:var(--lime); color:#0c0c0c; border:none; padding:16px; font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; margin-top:8px; transition:background 0.2s;"
-          onmouseover="this.style.background='var(--lime2)'" onmouseout="this.style.background='var(--lime)'">
-          Je veux mon audit gratuit →
-        </button>
-
-        <div id="form-success" style="display:none; background:rgba(212,255,0,0.1); border:1px solid var(--lime); padding:16px; text-align:center; color:var(--lime); font-size:14px; font-weight:500;">
-          ✓ Reçu ! Julien vous répond sous 24h.
-        </div>
-      </div>
+<section id="pourquoi">
+  <div class="wrap">
+    <div class="sec-head"><h2>Pourquoi le Pack Sérénité ?</h2></div>
+    <div class="why">
+      <div><svg viewBox="0 0 24 24"><path d="M4 20V14M10 20V9M16 20V12M22 20V4"/></svg><h3>Une meilleure visibilité locale</h3><p>Soyez trouvé par les clients de votre secteur.</p></div>
+      <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><h3>Un gain de temps au quotidien</h3><p>Moins de tâches annexes, plus de chantiers.</p></div>
+      <div><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.500 20c0-3.500 3-6 6.500-6s6.500 2.500 6.500 6M16 4.500a3.500 3.500 0 0 1 0 7M18 14c2.200.8 3.500 2.800 3.500 5"/></svg><h3>Un administratif allégé</h3><p>Documents classés, relances faites.</p></div>
+      <div><svg viewBox="0 0 24 24"><path d="M20 4C10 4 4 10 4 17c0 1 .2 2 .5 3 1 .3 2 .5 3 .5 7 0 12.500-6 12.500-16.500zM4 20c2-5 5-8 9-10"/></svg><h3>Une communication professionnelle et cohérente</h3><p>Une image soignée, partout où l’on vous cherche.</p></div>
+      <div><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6z"/><path d="M8.500 12l2.500 2.500 4.500-5"/></svg><h3>Une solution complète et économique</h3><p>Un seul interlocuteur, un budget maîtrisé.</p></div>
     </div>
-
-    <!-- FALLBACK EMAIL -->
-    <div style="margin-top:24px; display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap;">
-      <span style="font-size:13px; color:var(--muted);">Ou directement par email :</span>
-      <a href="mailto:julien@cognelia.fr" style="font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:700; letter-spacing:0.08em; color:var(--lime); text-decoration:none; border-bottom:1px solid rgba(212,255,0,0.3); padding-bottom:2px;">
-        julien@cognelia.fr
-      </a>
+    <div class="pillars">
+      <span>Un accompagnement simple et clair</span>
+      <span>Des solutions adaptées aux artisans</span>
+      <span>Un suivi régulier et de proximité</span>
     </div>
-
-    <div class="cta-note" style="margin-top:16px;">Gratuit · Sans engagement · Réponse sous 24h</div>
   </div>
 </section>
 
-<!-- FOOTER -->
+<section id="contact" class="contact">
+  <div class="wrap grid">
+    <div>
+      <h2>Parlons de votre activité !</h2>
+      <span class="script">Ensemble, faisons grandir votre activité !</span>
+      <div class="info">
+        <a href="tel:+33670823816"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.500 1.500a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>06 70 82 38 16</a>
+        <a href="mailto:julien@cognelia.fr"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>julien@cognelia.fr</a>
+      </div>
+    </div>
+    <form id="contact-form">
+      <label>Nom<input name="nom" required autocomplete="name"></label>
+      <label>E-mail<input name="email" type="email" required autocomplete="email"></label>
+      <label>Téléphone<input name="tel" type="tel" required autocomplete="tel" placeholder="06 00 00 00 00"></label>
+      <label>Je suis intéressé par
+        <select name="offre">
+          <option>Pack Sérénité</option>
+          <option>Site web seul</option>
+          <option>Aide administrative seule</option>
+          <option>Option réseaux sociaux</option>
+          <option>Je ne sais pas encore</option>
+        </select>
+      </label>
+      <label>Votre message<textarea name="message" rows="4" placeholder="Votre métier, vos besoins…"></textarea></label>
+      <button class="btn" type="submit">Envoyer ma demande</button>
+    </form>
+  </div>
+</section>
+</main>
+
 <footer>
-  <div class="foot-logo">COG<span>NELIA</span></div>
-  <ul class="foot-links">
-    <li><a href="#accueil">Accueil</a></li>
-    <li><a href="#solution">Solution</a></li>
-    <li><a href="#tarifs">Tarif</a></li>
-          <li><a href="mailto:julien@cognelia.fr">Contact</a></li>
+  <div class="wrap">© <span id="y">2026</span> Cognelia – Votre alliée numérique · <a href="mailto:julien@cognelia.fr">julien@cognelia.fr</a></div>
 </footer>
 
 <script>
-// Counter animation — leads perdus
-(function(){
-  const el = document.getElementById('counter');
-  const now = new Date();
-  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const secondsElapsed = Math.floor((now - startOfDay) / 1000);
-  // ~600 artisans × 3 leads/week × 70% sans site = ~252 leads/jour perdus dans le 29
-  // soit environ 252/86400 par seconde ≈ 0.00292/s
-  // Pour un compteur lisible on affiche par incrément
-  const leadsPerDay = 2520;
-  const leadsPerSecond = leadsPerDay / 86400;
-  let current = Math.floor(secondsElapsed * leadsPerSecond);
-  
-  el.textContent = current;
-  
-  setInterval(() => {
-    current += 1;
-    el.textContent = current;
-  }, Math.floor(1000 / leadsPerSecond));
-})();
-
-// Nav scroll effect
-window.addEventListener('scroll', () => {
-  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+document.getElementById('y').textContent = new Date().getFullYear();
+document.getElementById('contact-form').addEventListener('submit', function(e){
+  e.preventDefault();
+  var f = new FormData(this);
+  var body = 'Nom : '+f.get('nom')+'\nE-mail : '+f.get('email')+'\nTéléphone : '+f.get('tel')+'\nIntérêt : '+f.get('offre')+'\n\n'+f.get('message');
+  location.href = 'mailto:julien@cognelia.fr?subject='+encodeURIComponent('Demande via cognelia.fr – '+f.get('offre'))+'&body='+encodeURIComponent(body);
 });
-
-// Contact form → mailto
-function sendAudit() {
-  const nom = document.getElementById('f-nom').value.trim();
-  const tel = document.getElementById('f-tel').value.trim();
-  const site = document.querySelector('input[name="site"]:checked');
-
-  if (!nom || !tel) {
-    alert('Merci de renseigner votre prénom et téléphone.');
-    return;
-  }
-
-  const siteVal = site ? site.value : 'non précisé';
-  const subject = encodeURIComponent(`Audit gratuit — ${nom}`);
-  const body = encodeURIComponent(
-    `Bonjour Julien,\n\nJe souhaite un audit gratuit de ma visibilité.\n\nPrénom : ${nom}\nTéléphone : ${tel}\nSite actuel : ${siteVal}\n\nMerci !`
-  );
-
-  window.location.href = `mailto:julien@cognelia.fr?subject=${subject}&body=${body}`;
-
-  document.getElementById('form-success').style.display = 'block';
-  document.getElementById('btn-submit').style.display = 'none';
-}
-
-const reveals = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      observer.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-reveals.forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
